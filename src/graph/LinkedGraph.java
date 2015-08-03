@@ -24,6 +24,7 @@ public class LinkedGraph {
 		// 遍历时用，距离源点的度数
 		private int				degree	= 0;
 		// 遍历时用，父顶点
+		@SuppressWarnings("unused")
 		private Vertex			parent	= null;
 
 		public void link(Vertex other) {
@@ -51,6 +52,48 @@ public class LinkedGraph {
 		v.index = this.vertexes.size();
 		v.edge = new LinkedList<Integer>();
 		return v;
+	}
+
+	public Vertex getFront() {
+		if (this.vertexes.size() < 1) {
+			return null;
+		}
+		return this.vertexes.get(0);
+	}
+
+	public int getVertexCount() {
+		return this.vertexes.size();
+	}
+
+	public int getNextCount(Vertex v) {
+		if (v == null) {
+			return 0;
+		}
+		return v.edge.size();
+	}
+
+	public Vertex getNext(Vertex v, int i) {
+		int l = this.getNextCount(v);
+		if (i < 0 || i >= l) {
+			return null;
+		}
+		for (Integer e : v.edge) {
+			if (i == 0) {
+				return this.vertexes.get(e);
+			}
+			i--;
+		}
+		return null;
+	}
+
+	public Vertex[] getNexts(Vertex v) {
+		Vertex[] vertexes = new Vertex[this.getNextCount(v)];
+		int i = 0;
+		for (Integer e : v.edge) {
+			vertexes[i] = this.vertexes.get(e);
+			i++;
+		}
+		return vertexes;
 	}
 
 	public static enum SearchType {
